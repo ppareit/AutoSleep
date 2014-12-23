@@ -20,14 +20,12 @@ class AndroidUtils {
     }
 
     static def <T> T getSystemService(Context context, Class<T> t) {
-        
         var name = switch t {
             case AlarmManager : Context.ALARM_SERVICE
             case DevicePolicyManager : Context.DEVICE_POLICY_SERVICE
             case PowerManager : Context.POWER_SERVICE
         }
         return context.getSystemService(name) as T;
-        
     }
 
 }
