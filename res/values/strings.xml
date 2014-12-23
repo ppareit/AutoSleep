@@ -13,6 +13,21 @@
     <string name="delay">Delay</string>
     <string name="delay_summary">The time the cancel dialog is displayed. After the delay, the device will enter sleep.</string>
 
+    <string name="extra_title">Extra</string>
+    <string name="about">About...</string>
+    <string name="about_summary">Display extra information about this program</string>
+    <string name="about_message">
+        <b>Auto Sleep</b> will bring your device in sleep when the device
+        is no longer being charged. This is especially useful when you are
+        using your device as a navigation system in your car.\n\n\n
+        <b>Programming:</b>
+        Pieter Pareit (pieter.pareit@gmail.com)\n\n
+        <b>Artwork:</b>
+        Birgit Niemegeers\n\n
+        <b>License: </b>
+        GNU General Public License v3.0\n\n
+    </string>
+
     <string name="cancel_title">Charge Off</string>
     <string name="cancel_message">The device will enter sleep state in %s seconds.</string>
     <string name="cancel">Cancel</string>

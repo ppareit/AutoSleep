@@ -15,12 +15,17 @@ import static extension org.xtendroid.utils.AlertUtils.*
 import android.content.ComponentName
 import android.app.admin.DevicePolicyManager
 import android.util.Log
+import android.preference.Preference
+import android.app.AlertDialog
+import android.text.util.Linkify
 
 @AddLogTag
 class AsPreference extends PreferenceActivity {
 
     SwitchPreference servicerunningSwitch
-    static final int REQUEST_ADMIN_RIGHTS = 14;
+    Preference about
+
+    static final int REQUEST_ADMIN_RIGHTS = 14
 
     override onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
@@ -44,6 +49,18 @@ class AsPreference extends PreferenceActivity {
                 stopService(intent)
             }
             return true
+        ]
+
+        about = findPref("about")
+        about.onPreferenceClickListener = [
+            var ad = new AlertDialog.Builder(this) //
+                        .setTitle(R.string.about) //
+                        .setMessage(R.string.about_message) //
+                        .setPositiveButton(getText(android.R.string.ok), []) //
+                        .create()
+            ad.show();
+            Linkify.addLinks(ad.findView(android.R.id.message), Linkify.ALL);
+            true
         ]
     }
 

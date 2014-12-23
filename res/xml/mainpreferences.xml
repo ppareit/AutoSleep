@@ -23,4 +23,13 @@
             android:defaultValue="15" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="extra_category"
+        android:title="@string/extra_title">
+        <Preference
+            android:key="about"
+            android:title="@string/about"
+            android:summary="@string/about_summary" />
+        </PreferenceCategory>
+
 </PreferenceScreen>
