@@ -7,6 +7,7 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.USES_POLICY_FORCE_LOCK" />
 
@@ -21,13 +22,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity 
-            android:name="be.ppareit.autosleep.CancelActivity"
-            android:noHistory="false"
-            android:excludeFromRecents="true" >
-            <intent-filter>
             </intent-filter>
         </activity>
 
