@@ -1,22 +1,23 @@
 <resources>
 
-    <string name="app_name">ChargeOff ScreenOff</string>
+    <string name="app_name">Auto Sleep</string>
 
     <string name="runservice">Service running</string>
-    <string name="runservice_summary">Eable this option for the program to work</string>
+    <string name="runservice_summary">Enable this option for the program to work</string>
 
     <string name="settings_title">Settings</string>
-    
+
     <string name="allowcancel">Allow cancel</string>
-    <string name="allowcancel_summary">Display a dialog, in which the user can cancel the screen off.</string>
-    
+    <string name="allowcancel_summary">Display a dialog, in which the user can cancel the auto sleep.</string>
+
     <string name="delay">Delay</string>
-    <string name="delay_summary">The time the cancel dialog is displayed. After the delay, the screen will automatically be turned off.</string>
-    
+    <string name="delay_summary">The time the cancel dialog is displayed. After the delay, the device will enter sleep.</string>
+
     <string name="cancel_title">Charge Off</string>
     <string name="cancel_message">The device will enter sleep state in %s seconds.</string>
     <string name="cancel">Cancel</string>
     <string name="sleepnow">Enter sleep now</string>
-    
+
     <string name="admin_description">Permission is needed to lock the screen.</string>
+
 </resources>
