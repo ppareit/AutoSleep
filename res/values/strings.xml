@@ -27,6 +27,14 @@
         <b>License: </b>
         GNU General Public License v3.0\n\n
     </string>
+    <string name="donate">Donate...</string>
+    <string name="donate_summary">Support development of this and more open source applications</string>
+    <string name="donate_01_euro">1 euro</string>
+    <string name="donate_02_euro">2 euro</string>
+    <string name="donate_05_euro">5 euro</string>
+    <string name="donate_10_euro">10 euro</string>
+    <string name="donate_20_euro">20 euro</string>
+    <string name="donated_thank_user">Thanks you for your donation!</string>
 
     <string name="cancel_title">Charge Off</string>
     <string name="cancel_message">The device will enter sleep state in %s seconds.</string>
