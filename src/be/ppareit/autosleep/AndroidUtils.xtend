@@ -8,6 +8,7 @@ import android.preference.PreferenceActivity
 import android.os.PowerManager
 import android.app.Dialog
 import android.view.View
+import android.content.SharedPreferences
 
 class AndroidUtils {
 
@@ -28,4 +29,7 @@ class AndroidUtils {
         return context.getSystemService(name) as T;
     }
 
+    static def SharedPreferences getSharedPreferences(PreferenceActivity activity) {
+        return activity.preferenceScreen.sharedPreferences
+    }
 }

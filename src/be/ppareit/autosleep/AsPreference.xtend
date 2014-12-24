@@ -1,33 +1,35 @@
 package be.ppareit.autosleep
 
+import android.app.AlertDialog
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
+import android.preference.Preference
 import android.preference.PreferenceActivity
 import android.preference.SwitchPreference
-import org.xtendroid.annotations.AddLogTag
-
-import static extension be.ppareit.autosleep.AndroidUtils.*
-import static extension be.ppareit.autosleep.App.*
-import static extension be.ppareit.autosleep.Settings.*
-
-import static extension org.xtendroid.utils.AlertUtils.*
-
-import android.content.ComponentName
-import android.app.admin.DevicePolicyManager
-import android.util.Log
-import android.preference.Preference
-import android.app.AlertDialog
 import android.text.util.Linkify
+import android.util.Log
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
-import android.view.ContextMenu
-import android.view.View
-import android.widget.PopupMenu
+import org.xtendroid.annotations.AddLogTag
+
+import static be.ppareit.autosleep.App.*
+
+import static extension be.ppareit.autosleep.AndroidUtils.*
+import static extension be.ppareit.autosleep.Settings.*
+import static extension org.xtendroid.utils.AlertUtils.*
+import android.content.SharedPreferences
 
 @AddLogTag
-class AsPreference extends PreferenceActivity implements BillingProcessor.IBillingHandler {
+class AsPreference //
+extends PreferenceActivity //
+implements BillingProcessor.IBillingHandler, //
+SharedPreferences.OnSharedPreferenceChangeListener {
 
     SwitchPreference mServicerunningSwitch
+    Preference mAllowCancelPref
+    Preference mDelayPref
     Preference mAboutPref
     Preference mDonatePref
 
@@ -61,13 +63,19 @@ class AsPreference extends PreferenceActivity implements BillingProcessor.IBilli
             return true
         ]
 
+        mAllowCancelPref = findPref("allowcancel")
+        mAllowCancelPref.enabled = settings.runservice
+
+        mDelayPref = findPref("delay")
+        mDelayPref.enabled = settings.runservice && settings.allowcancel
+
         mAboutPref = findPref("about")
         mAboutPref.onPreferenceClickListener = [
             var ad = new AlertDialog.Builder(this) //
-                        .setTitle(R.string.about) //
-                        .setMessage(R.string.about_message) //
-                        .setPositiveButton(getText(android.R.string.ok), []) //
-                        .create()
+            .setTitle(R.string.about) //
+            .setMessage(R.string.about_message) //
+            .setPositiveButton(getText(android.R.string.ok), []) //
+            .create()
             ad.show();
             Linkify.addLinks(ad.findView(android.R.id.message), Linkify.ALL);
             true
@@ -84,33 +92,48 @@ class AsPreference extends PreferenceActivity implements BillingProcessor.IBilli
         ]
     }
 
-    override void onDestroy() {
+    override onResume() {
+        super.onResume()
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override onPause() {
+        super.onPause()
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override onDestroy() {
         if (mBillingProcessor != null)
             mBillingProcessor.release();
         super.onDestroy();
     }
 
-    protected override def onActivityResult(int requestCode, int resultCode, Intent data) {
+    override onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        mAllowCancelPref.enabled = settings.runservice
+        mDelayPref.enabled = settings.runservice && settings.allowcancel
+    }
 
-         if (!mBillingProcessor.handleActivityResult(requestCode, resultCode, data))
+    override onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (!mBillingProcessor.handleActivityResult(requestCode, resultCode, data))
             super.onActivityResult(requestCode, resultCode, data);
 
-         if (requestCode == REQUEST_ADMIN_RIGHTS) {
-             if (resultCode == RESULT_CANCELED) {
-                 Log.d(TAG, "No admin rights given")
-                 settings.runservice = false
-                 mServicerunningSwitch.checked = false
-                 var intent = new Intent(this, AsService)
-                 stopService(intent)
-                 toast("No admin rights given, disabling")
-             }
-         }
-     }
+        if (requestCode == REQUEST_ADMIN_RIGHTS) {
+            if (resultCode == RESULT_CANCELED) {
+                Log.d(TAG, "No admin rights given")
+                settings.runservice = false
+                mServicerunningSwitch.checked = false
+                var intent = new Intent(this, AsService)
+                stopService(intent)
+                toast("No admin rights given, disabling")
+            }
+        }
+    }
 
     override onBillingError(int errorCode, Throwable error) {
         Log.d(TAG, "Billing Error")
         Log.e(TAG, "\terrorCode = " + errorCode)
-        Log.e(TAG, "\terror = " + error.toString())
+        Log.e(TAG, "\terror = " + error?.toString())
     }
 
     override onBillingInitialized() {
@@ -128,6 +151,3 @@ class AsPreference extends PreferenceActivity implements BillingProcessor.IBilli
     }
 
 }
-
-
-
