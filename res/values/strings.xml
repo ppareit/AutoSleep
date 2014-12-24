@@ -3,7 +3,7 @@
     <string name="app_name">Auto Sleep</string>
 
     <string name="runservice">Service running</string>
-    <string name="runservice_summary">Enable this option for the program to work</string>
+    <string name="runservice_summary">Enable this option so that the device can automatically enter sleep when it stops being charged</string>
 
     <string name="settings_title">Settings</string>
 
