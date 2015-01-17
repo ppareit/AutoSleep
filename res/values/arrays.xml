@@ -15,18 +15,12 @@
     </string-array>
 
     <string-array name="donate_entries">
-        <item>1 euro</item>
-        <item>2 euro</item>
-        <item>5 euro</item>
-        <item>10 euro</item>
-        <item>20 euro</item>
+        <item>A cup of coffee (2 euro)</item>
+        <item>A piece of pie (5 euro)</item>
     </string-array>
     <string-array name="donate_values">
-        <item>donate_01</item>
         <item>donate_02</item>
         <item>donate_05</item>
-        <item>donate_10</item>
-        <item>donate_20</item>
     </string-array>
 
 </resources>
