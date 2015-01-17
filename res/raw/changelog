@@ -1,0 +1,4 @@
+Version 1.0.4 (17/01/2014):
+  + Add ChangLog
+  + Trim binary (saves memory)
+  * Bug fixes
