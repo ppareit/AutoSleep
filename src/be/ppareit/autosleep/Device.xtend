@@ -12,6 +12,9 @@ import org.xtendroid.utils.BgTask
 import android.os.PowerManager
 import org.xtendroid.annotations.AddLogTag
 import android.util.Log
+import android.content.IntentFilter
+import android.os.BatteryManager
+import android.os.Build
 
 @AddLogTag
 class Device extends ContextWrapper {
@@ -27,6 +30,18 @@ class Device extends ContextWrapper {
             sDevice = new Device(app.applicationContext)
         }
         return sDevice
+    }
+
+    def boolean isPlugged() {
+        var isPlugged = false
+        var intent = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        var plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+        isPlugged = plugged == BatteryManager.BATTERY_PLUGGED_AC
+        isPlugged = isPlugged || plugged == BatteryManager.BATTERY_PLUGGED_USB
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            isPlugged = isPlugged || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS
+        }
+        return isPlugged;
     }
 
     def void turnScreenOff() {

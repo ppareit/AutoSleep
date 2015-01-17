@@ -103,9 +103,8 @@ SharedPreferences.OnSharedPreferenceChangeListener {
     }
 
     override onDestroy() {
-        if (mBillingProcessor != null)
-            mBillingProcessor.release();
-        super.onDestroy();
+        mBillingProcessor?.release()
+        super.onDestroy()
     }
 
     override onSharedPreferenceChanged(SharedPreferences sp, String key) {

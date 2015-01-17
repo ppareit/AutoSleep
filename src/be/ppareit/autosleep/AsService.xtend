@@ -50,17 +50,21 @@ class AsService extends Service {
                 progressDialog.progressStyle = ProgressDialog.STYLE_SPINNER // change this or progressbar
                 progressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, resources.getString(R.string.cancel),
                     [
-                        progressDialog.dismiss
+                        progressDialog.dismiss()
                     ])
                 progressDialog.setButton(ProgressDialog.BUTTON_POSITIVE, resources.getString(R.string.sleepnow),
                     [
-                        progressDialog.dismiss
+                        progressDialog.dismiss()
                         device.turnScreenOff()
                     ])
                 progressDialog.show
             }
             override protected doInBackground(Void... params) {
                 for (i : delay .. 0) {
+                    // check if the device is not been plugged in again
+                    if (device.isPlugged() == true) {
+                        progressDialog.dismiss()
+                    }
                     Thread.sleep(1000)
                     publishProgress(i)
                 }
@@ -110,18 +114,6 @@ class AsService extends Service {
         unregisterReceiver(mPowerDisconnectReceiver)
 
         mRunning = false
-    }
-
-    def boolean isPlugged() {
-        var isPlugged = false
-        var intent = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        var plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
-        isPlugged = plugged == BatteryManager.BATTERY_PLUGGED_AC
-        isPlugged = isPlugged || plugged == BatteryManager.BATTERY_PLUGGED_USB
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-            isPlugged = isPlugged || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS
-        }
-        return isPlugged;
     }
 
     override void onTaskRemoved(Intent rootIntent) {
