@@ -3,3 +3,4 @@
 *gen/
 gh-pages/*
 *.keystore
+proguard/*
